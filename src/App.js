@@ -7,13 +7,14 @@ import Cart from "./components/Cart";
 bakeryData.forEach((item) => {
   item.image = process.env.PUBLIC_URL + "/" + item.image;
 });
+const bakeryDataSorted = bakeryData.sort((a, b) => a.name.localeCompare(b.name))
 
 function App() {
   const [cart, setCart] = useState([]);
   const [priceFilter, setPriceFilter] = useState(0);
   const [ingredientFilter, setIngredientFilter] = useState("");
   const [sortBy, setSortBy] = useState("name");
-  const [filterSortList, setFilterSortList] = useState(bakeryData);
+  const [filterSortList, setFilterSortList] = useState(bakeryDataSorted);
 
   const AddToCart = (item) => {
     setCart([...cart, item]);
