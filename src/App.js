@@ -1,45 +1,105 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import bakeryData from "./assets/bakery-data.json";
 import BakeryItem from "./components/BakeryItem";
+import Cart from "./components/Cart";
 
-/* ####### DO NOT TOUCH -- this makes the image URLs work ####### */
 bakeryData.forEach((item) => {
   item.image = process.env.PUBLIC_URL + "/" + item.image;
 });
-/* ############################################################## */
 
 function App() {
-  // TODO: use useState to create a state variable to hold the state of the cart
-  /* add your cart state code here */
   const [cart, setCart] = useState([]);
+  const [priceFilter, setPriceFilter] = useState(0);
+  const [ingredientFilter, setIngredientFilter] = useState("");
+  const [sortBy, setSortBy] = useState("name");
+  const [filterSortList, setFilterSortList] = useState(bakeryData);
 
   const AddToCart = (item) => {
     setCart([...cart, item]);
   };
 
+  const RemoveFromCart = (itemName) => {
+    let item = cart.find((item) => item.name === itemName);
+    let index = cart.indexOf(item);
+    let newCart = [...cart];
+    newCart.splice(index, 1);
+    setCart(newCart);
+  };
+
+  const ClearFilters = () => {
+    setPriceFilter(0);
+    setIngredientFilter("")
+    setSortBy("name")
+  }
+
+  useEffect(() => {
+    let filteredList = bakeryData;
+    if (priceFilter > 0) {
+      filteredList = filteredList.filter((item) =>
+        (priceFilter === 1 && item.price < 3) ||
+        (priceFilter === 2 && item.price >= 3 && item.price <= 5) ||
+        (priceFilter === 3 && item.price > 5)
+      );
+    }
+    if (ingredientFilter !== "") {
+      filteredList = filteredList.filter((item) =>
+        item.ingredients.includes(ingredientFilter)
+      );
+    }
+    if (sortBy === "name") {
+      filteredList.sort((a, b) => (a.name > b.name) ? 1 : -1);
+    } else if (sortBy === "price") {
+      filteredList.sort((a, b) => (a.price > b.price) ? 1 : -1);
+    }
+
+    setFilterSortList(filteredList);
+  }, [priceFilter, ingredientFilter]);
+
   return (
-    <div className="App">
-      <h1>My Bakery</h1> {/* TODO: personalize your bakery (if you want) */}
-
-      {bakeryData.map((item, index) => ( // TODO: map bakeryData to BakeryItem components
-        <>
-          <BakeryItem image={item.image} name={item.name} price={item.price} description={item.description} callback={AddToCart}/>
-        </>
-      ))}
-
-      <div>
-        <h2>Cart</h2>
-        {/* TODO: render a list of items in the cart */}
-        {cart.map((item, index) => (
+    <div style={{ textAlign: "center" }}>
+      <div className="App">
+        <Cart cart={cart} callback={RemoveFromCart} />
+        <div>
+          <h1>My Bakery</h1>
           <div>
-            <p>{item.name}</p>
-            <p>${item.price}</p>
+            <label>Filter by Price:</label>
+            <select value={priceFilter} onChange={(e) => setPriceFilter(Number(e.target.value))}>
+              <option value="0">All</option>
+              <option value="1">Under $3</option>
+              <option value="2">$3 to $5</option>
+              <option value="3">Over $5</option>
+            </select> <br />
+
+            <label>Filter by Ingredients:</label>
+            <select value={ingredientFilter} onChange={(e) => setIngredientFilter(e.target.value)}>
+              <option value="">All</option>
+              <option value="flour">Flour</option>
+              <option value="sugar">Sugar</option>
+              <option value="eggs">Eggs</option>
+              <option value="cream">Cream</option>
+              <option value="butter">Butter</option>
+              <option value="taro">Taro</option>
+            </select> <br />
+
+            <label>Sort by:</label>
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+              <option value="name">Name</option>
+              <option value="price">Price</option>
+            </select> <br />
+
+            <button onClick={ClearFilters}>Clear Filters</button>
           </div>
-        ))}
+
+          {filterSortList.map((item, index) => (
+            <>
+              <BakeryItem image={item.image} name={item.name} price={item.price} description={item.description} callback={AddToCart} />
+            </>
+          ))}
+        </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default App;
