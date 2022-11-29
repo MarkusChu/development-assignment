@@ -94,7 +94,7 @@ function App() {
 
           {filterSortList.map((item, index) => (
             <>
-              <BakeryItem image={item.image} name={item.name} price={item.price} description={item.description} ingredients={item.ingredients} callback={AddToCart} />
+              <BakeryItem image={item.image} name={item.name} price={item.price} ingredients={item.ingredients} callback={AddToCart} />
             </>
           ))}
         </div>
