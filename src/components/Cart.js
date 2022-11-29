@@ -10,10 +10,15 @@ function Cart(props) {
         }
         return acc;
     }, []);
+    
+    const totalPrice = cart.reduce((acc, item) => {
+        return acc + item.price * item.count;
+    }, 0);
 
     return (
         <div>
             <h2>Cart</h2>
+            <h4>Total Price: ${totalPrice}</h4>
             {cart.map((item, index) => (
                 <>
                     <div className="Cart">
