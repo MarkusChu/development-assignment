@@ -1,0 +1,17 @@
+/* Add styling for your page here */
+
+.App {
+    text-align: center;
+    padding: 20px;
+}
+
+.BakeryItem {
+    display: inline-block;
+    width: 400px;
+    height: 400px;
+    margin: 10px;
+    background-color: #fff;
+    color: #000;
+    padding: 10px;
+    border-radius: 10px;
+}
