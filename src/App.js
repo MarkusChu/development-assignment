@@ -55,7 +55,7 @@ function App() {
     }
 
     setFilterSortList(filteredList);
-  }, [priceFilter, ingredientFilter]);
+  }, [priceFilter, ingredientFilter, sortBy]);
 
   return (
     <div style={{ textAlign: "center" }}>
