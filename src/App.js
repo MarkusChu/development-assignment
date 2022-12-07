@@ -35,7 +35,7 @@ function App() {
   }
 
   useEffect(() => {
-    let filteredList = bakeryDataSorted;
+    let filteredList = JSON.parse(JSON.stringify(bakeryDataSorted));
     if (priceFilter > 0) {
       filteredList = filteredList.filter((item) =>
         (priceFilter === 1 && item.price < 3) ||
