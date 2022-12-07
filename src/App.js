@@ -49,7 +49,7 @@ function App() {
       );
     }
     if (sortBy === "name") {
-      filteredList.sort((a, b) => (a.name > b.name) ? 1 : -1);
+      filteredList.sort((a, b) => a.name.localeCompare(b.name))
     } else if (sortBy === "price") {
       filteredList.sort((a, b) => (a.price > b.price) ? 1 : -1);
     }
