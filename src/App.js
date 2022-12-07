@@ -35,7 +35,7 @@ function App() {
   }
 
   useEffect(() => {
-    let filteredList = filterSortList;
+    let filteredList = bakeryDataSorted;
     if (priceFilter > 0) {
       filteredList = filteredList.filter((item) =>
         (priceFilter === 1 && item.price < 3) ||
@@ -49,9 +49,9 @@ function App() {
       );
     }
     if (sortBy === "name") {
-      filteredList.sort((a, b) => a.name.localeCompare(b.name))
+      filteredList = filteredList.sort((a, b) => a.name.localeCompare(b.name))
     } else if (sortBy === "price") {
-      filteredList.sort((a, b) => (a.price > b.price) ? 1 : -1);
+      filteredList = filteredList.sort((a, b) => (a.price > b.price) ? 1 : -1);
     }
 
     setFilterSortList(filteredList);
