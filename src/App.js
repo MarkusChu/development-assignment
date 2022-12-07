@@ -35,7 +35,7 @@ function App() {
   }
 
   useEffect(() => {
-    let filteredList = bakeryData;
+    let filteredList = filterSortList;
     if (priceFilter > 0) {
       filteredList = filteredList.filter((item) =>
         (priceFilter === 1 && item.price < 3) ||
