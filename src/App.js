@@ -53,7 +53,6 @@ function App() {
     } else if (sortBy === "price") {
       filteredList = filteredList.sort((a, b) => (a.price > b.price) ? 1 : -1);
     }
-
     setFilterSortList(filteredList);
   }, [priceFilter, ingredientFilter, sortBy]);
 
